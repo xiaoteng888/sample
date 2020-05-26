@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -17,6 +18,7 @@ class UsersController extends Controller
         $user->fill($request->all());
         $user->password = bcrypt($user->password);
         $user->save();
+        Auth::login($user);
         session()->flash('success','欢迎，您将在此开启一段旅程！');
         return redirect()->route('users.show',[$user]);
     }
